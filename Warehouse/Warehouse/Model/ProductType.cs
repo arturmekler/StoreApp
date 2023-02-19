@@ -1,4 +1,4 @@
-﻿namespace Warehouse.Model
+﻿namespace WarehouseProject.Model
 {
     public enum ProductType
     {

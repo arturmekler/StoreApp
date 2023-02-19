@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using Warehouse.Model;
+using WarehouseProject.Model;
 
-namespace Warehouse.Controllers
+namespace WarehouseProject.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -19,14 +19,15 @@ namespace Warehouse.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet]
+        [Route("Warehouses")]
         public IEnumerable<Model.Warehouse> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new Warehouse
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                Id = index,
+                Name = "Blabla",
+                MyProperty = index + 2
             })
             .ToArray();
         }
