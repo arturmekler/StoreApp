@@ -1,4 +1,4 @@
-﻿namespace DataAccess.Model
+﻿namespace DataAccess.Entities
 {
     public class Product
     {
