@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WarehouseProject.Dto;
 using WarehouseProject.Model;
 
 namespace WarehouseProject.Controllers
@@ -7,6 +8,7 @@ namespace WarehouseProject.Controllers
     [Route("api")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly WarehouseContext _context;
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -14,9 +16,10 @@ namespace WarehouseProject.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, WarehouseContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         [HttpGet]
@@ -30,6 +33,32 @@ namespace WarehouseProject.Controllers
                 MyProperty = index + 2
             })
             .ToArray();
+        }
+        [HttpPost]
+        [Route("AddWarehouse")]
+        public void InsertWarehouse([FromBody] WarehouseDto warehouse)
+        {
+            var asd = warehouse;
+            var qwe = new Warehouse()
+            {
+                MyProperty = asd.MyProperty,
+                Name = asd.Name
+            };
+            _context.Add(qwe);
+            _context.SaveChanges();
+        }
+        [HttpPost]
+        [Route("AddProduct")]
+        public void InsertProduct([FromBody] ProductDto warehouse)
+        {
+            var qwe = new Product()
+            {
+                Name = warehouse.Name,
+                Type = ProductType.RTV,
+                Warehouse = _context.Warehouses.Where(el => el.Id == warehouse.WarehouseId).First()
+            };
+            _context.Add(qwe);
+            _context.SaveChanges();
         }
     }
 }
